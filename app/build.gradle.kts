@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.rn.fragments"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.rn.fragments"
         minSdk = 19
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -32,6 +32,14 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    buildFeatures{
+        dataBinding = true
+    }
+
+    viewBinding{
+        enable = true
     }
 }
 

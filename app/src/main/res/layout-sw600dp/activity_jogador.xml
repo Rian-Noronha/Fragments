@@ -10,8 +10,20 @@
    <androidx.fragment.app.FragmentContainerView
        android:id="@+id/fragmentList"
        android:name="com.rn.fragments.view.JogadorListFragment"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+       android:layout_width="0dp"
+       android:layout_height="match_parent"
+       android:layout_weight="1"
+       android:baselineAligned="false"
+       >
    </androidx.fragment.app.FragmentContainerView>
+
+   <FrameLayout
+       android:id="@id/detalhes"
+       android:layout_width="0dp"
+       android:layout_height="match_parent"
+       android:layout_weight="2"
+       >
+   </FrameLayout>
+
 
 </LinearLayout>

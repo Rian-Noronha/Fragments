@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Fragments</string>
+    <string name="erro_jogador_nao_encontrado">Jogador não encontrado</string>
+
+    <string name="action_search">Pesquisar</string>
+    <string name="action_new_jogador">Novo jogador</string>
+    <string name="action_info">Info</string>
+    <string name="hint_search">Procurar por jogador</string>
+
+    <string name="about_title">Dominando o Android</string>
+    <string name="about_message">Desenvolvido por rnoronha</string>
+    <string name="about_button_site">Site</string>
+
+    <string name="form_label_name">Nome</string>
+    <string name="form_label_posicao">Posição</string>
+    <string name="form_label_rating">Classificação</string>
+
+    <string name="error_invalid_jogador">Jogador não preenchido corretamente</string>
+    <string name="action_delete">Excluir</string>
+    <plurals name="list_jogador_selected">
+        <item quantity="one">1 selecionado</item>
+        <item quantity="other">%d selecionados</item>
+    </plurals>
+
+    <string name="message_jogadores_deleted">%d itens excluídos</string>
+    <string name="undo">Desfazer</string>
+
+    <string name="action_share">Compartilhar</string>
+    <string name="share_text">Analisei o %1$s e o classiquei em %2$.1f estrelas</string>
+
 </resources>
