@@ -1,4 +1,4 @@
-package com.rn.fragments.view
+package com.rn.fragments.view.fragment
 
 import android.app.Dialog
 import android.content.DialogInterface

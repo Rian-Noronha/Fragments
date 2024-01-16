@@ -1,4 +1,4 @@
-package com.rn.fragments.view
+package com.rn.fragments.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,8 +12,9 @@ import androidx.fragment.app.FragmentManager
 import com.rn.fragments.R
 import com.rn.fragments.databinding.FragmentJogadorFormBinding
 import com.rn.fragments.model.Jogador
-import com.rn.fragments.model.MemoryRepository
+import com.rn.fragments.model.repository.MemoryRepository
 import com.rn.fragments.presenter.JogadorFormPresenter
+import com.rn.fragments.view.JogadorFormView
 
 class JogadorFormFragment :
     DialogFragment(),

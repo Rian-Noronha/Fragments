@@ -1,6 +1,8 @@
-package com.rn.fragments.model
+package com.rn.fragments.model.repository
 
-object MemoryRepository : JogadorRepository{
+import com.rn.fragments.model.Jogador
+
+object MemoryRepository : JogadorRepository {
 
     private var proximoId = 1L
     private val listaJogadores = mutableListOf<Jogador>()
@@ -37,12 +39,13 @@ object MemoryRepository : JogadorRepository{
     }
 
     override fun buscar(termo: String, callback: (List<Jogador>) -> Unit) {
-        callback(
+        val listaResultado =
             if(termo.isEmpty()) listaJogadores
             else listaJogadores.filter {
                 it.nome.uppercase().contains(termo.uppercase())
             }
-        )
+
+            callback(listaResultado.sortedBy { it.nome })
     }
 
 }

@@ -1,10 +1,11 @@
-package com.rn.fragments.view
+package com.rn.fragments.view.activity
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.rn.fragments.R
+import com.rn.fragments.view.fragment.JogadorDetalhesFragment
 
 class JogadorDetalhesActivity : AppCompatActivity() {
 

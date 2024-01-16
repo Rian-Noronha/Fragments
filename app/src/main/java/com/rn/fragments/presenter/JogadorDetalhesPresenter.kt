@@ -1,6 +1,6 @@
 package com.rn.fragments.presenter
 
-import com.rn.fragments.model.JogadorRepository
+import com.rn.fragments.model.repository.JogadorRepository
 import com.rn.fragments.view.JogadorDetalhesView
 
 class JogadorDetalhesPresenter(

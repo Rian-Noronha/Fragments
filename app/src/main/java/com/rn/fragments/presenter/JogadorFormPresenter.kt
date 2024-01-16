@@ -1,7 +1,7 @@
 package com.rn.fragments.presenter
 
 import com.rn.fragments.model.Jogador
-import com.rn.fragments.model.JogadorRepository
+import com.rn.fragments.model.repository.JogadorRepository
 import com.rn.fragments.model.JogadorValidator
 import com.rn.fragments.view.JogadorFormView
 

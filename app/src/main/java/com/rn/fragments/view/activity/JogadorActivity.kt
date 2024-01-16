@@ -1,4 +1,4 @@
-package com.rn.fragments.view
+package com.rn.fragments.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,28 +8,44 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import com.rn.fragments.R
+import com.rn.fragments.databinding.ActivityJogadorBinding
 import com.rn.fragments.model.Jogador
+import com.rn.fragments.view.fragment.AboutDialogFragment
+import com.rn.fragments.view.fragment.JogadorDetalhesFragment
+import com.rn.fragments.view.fragment.JogadorFormFragment
+import com.rn.fragments.view.fragment.JogadorListFragment
 
 class JogadorActivity :
     AppCompatActivity(),
     JogadorListFragment.OnJogadorClickListener,
+    JogadorListFragment.OnJogadorListenerExcluido,
     SearchView.OnQueryTextListener,
     MenuItem.OnActionExpandListener,
     JogadorFormFragment.OnJogadorSavedListener{
 
+    private lateinit var binding: ActivityJogadorBinding
+    private var jogadorIdSelecionado: Long = -1
     private var lastSearchTerm: String = ""
     private var searchView:SearchView? = null
-    private val listFragment:JogadorListFragment by lazy {
+    private val listFragment: JogadorListFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.fragmentList) as JogadorListFragment
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_jogador)
+        binding = ActivityJogadorBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.fabAdd.setOnClickListener{
+            listFragment.esconderModoExclusao()
+            JogadorFormFragment.newInstance().open(supportFragmentManager)
+        }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
+        outState?.putLong(EXTRA_JOGADOR_ID_SELECTED, jogadorIdSelecionado)
         outState?.putString(EXTRA_SEARCH_TERM, lastSearchTerm)
     }
 
@@ -38,6 +54,10 @@ class JogadorActivity :
         persistentState: PersistableBundle?
     ) {
         super.onRestoreInstanceState(savedInstanceState, persistentState)
+
+        jogadorIdSelecionado =
+            savedInstanceState?.getLong(EXTRA_JOGADOR_ID_SELECTED)?:0
+
         lastSearchTerm =
             savedInstanceState?.getString(EXTRA_SEARCH_TERM)?:""
     }
@@ -66,8 +86,6 @@ class JogadorActivity :
         when (item?.itemId) {
             R.id.action_info ->
                 AboutDialogFragment().show(supportFragmentManager, "sobre")
-            R.id.action_new ->
-                JogadorFormFragment.newInstance().open(supportFragmentManager)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -75,6 +93,7 @@ class JogadorActivity :
 
     override fun onJogadorClick(jogador: Jogador) {
         if(isTablet()){
+            jogadorIdSelecionado = jogador.id
             mostrarDetalhesFragment(jogador.id)
         }else{
             mostrarDetalhesActivity(jogador.id)
@@ -124,6 +143,18 @@ class JogadorActivity :
 
     override fun onJogadorSaved(jogador: Jogador) {
        listFragment.search(lastSearchTerm)
+    }
+
+    override fun onJogadoresExcluidos(jogadores: List<Jogador>) {
+        if(jogadores.find { it.id == jogadorIdSelecionado} != null){
+            val fragment = supportFragmentManager.findFragmentByTag(JogadorDetalhesFragment.TAG_DETAILS)
+            if(fragment != null){
+                supportFragmentManager
+                    .beginTransaction()
+                    .remove(fragment)
+                    .commit()
+            }
+        }
     }
 
 

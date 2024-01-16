@@ -13,10 +13,12 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".view.JogadorDetalhesActivity"
+            android:name=".view.activity.JogadorDetalhesActivity"
+            android:parentActivityName=".view.activity.JogadorActivity"
             android:exported="false" />
         <activity
-            android:name=".view.JogadorActivity"
+            android:name=".view.activity.JogadorActivity"
+            android:launchMode="singleTop"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

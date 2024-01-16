@@ -11,14 +11,6 @@
     </item>
 
     <item
-        android:id="@+id/action_new"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="@string/action_new_jogador"
-        app:showAsAction="ifRoom|withText"
-        >
-    </item>
-
-    <item
         android:id="@+id/action_info"
         android:icon="@android:drawable/ic_menu_info_details"
         android:title="@string/action_info"

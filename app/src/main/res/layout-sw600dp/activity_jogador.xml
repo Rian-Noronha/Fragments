@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".view.JogadorActivity">
+    tools:context=".view.activity.JogadorActivity">
 
    <androidx.fragment.app.FragmentContainerView
        android:id="@+id/fragmentList"
-       android:name="com.rn.fragments.view.JogadorListFragment"
+       android:name="com.rn.fragments.view.fragment.JogadorListFragment"
        android:layout_width="0dp"
        android:layout_height="match_parent"
        android:layout_weight="1"
@@ -24,6 +24,19 @@
        android:layout_weight="2"
        >
    </FrameLayout>
+
+   <com.google.android.material.floatingactionbutton.FloatingActionButton
+       android:id="@+id/fabAdd"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_margin="16dp"
+       android:tint="@android:color/white"
+       android:contentDescription="@string/content_description_fab"
+       app:srcCompat="@drawable/ic_add"
+       app:fabSize="normal"
+       app:borderWidth="0dp"
+       android:layout_gravity="bottom|end"
+       tools:ignore="VisualLintBounds" />
 
 
 </LinearLayout>
