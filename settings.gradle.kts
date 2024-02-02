@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Fragments"
+rootProject.name = "SQLite"
 include(":app")

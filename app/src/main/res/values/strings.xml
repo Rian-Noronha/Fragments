@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fragments</string>
+    <string name="app_name">Jogadores</string>
     <string name="erro_jogador_nao_encontrado">Jogador não encontrado</string>
 
     <string name="action_search">Pesquisar</string>
@@ -26,7 +26,7 @@
     <string name="undo">Desfazer</string>
 
     <string name="action_share">Compartilhar</string>
-    <string name="share_text">Analisei o %1$s e o classiquei em %2$.1f estrelas</string>
-
+    <string name="share_text">Analisei o %1$s e o classifiquei em %2$.1f estrelas</string>
+    <string name="action_edit">Editar</string>
     <string name="content_description_fab">Fab para adicionar jogador</string>
 </resources>

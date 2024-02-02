@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".JogadorApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,11 +14,11 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".view.activity.JogadorDetalhesActivity"
-            android:parentActivityName=".view.activity.JogadorActivity"
+            android:name=".details.JogadorDetalhesActivity"
+            android:parentActivityName=".common.JogadorActivity"
             android:exported="false" />
         <activity
-            android:name=".view.activity.JogadorActivity"
+            android:name=".common.JogadorActivity"
             android:launchMode="singleTop"
             android:exported="true">
             <intent-filter>

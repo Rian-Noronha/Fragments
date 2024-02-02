@@ -10,4 +10,12 @@
         >
     </item>
 
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="action_edit"
+        app:showAsAction="always|withText"
+        >
+    </item>
+
 </menu>

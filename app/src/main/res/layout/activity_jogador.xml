@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".view.activity.JogadorActivity">
+    tools:context=".common.JogadorActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentList"
-        android:name="com.rn.fragments.view.fragment.JogadorListFragment"
+        android:name="com.rn.jogador.list.JogadorListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </androidx.fragment.app.FragmentContainerView>
