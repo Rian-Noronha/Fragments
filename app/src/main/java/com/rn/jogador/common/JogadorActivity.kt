@@ -1,7 +1,5 @@
 package com.rn.jogador.common
 
-import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -16,18 +14,17 @@ import com.rn.jogador.model.Jogador
 import com.rn.jogador.details.JogadorDetalhesFragment
 import com.rn.jogador.form.JogadorFormFragment
 import com.rn.jogador.list.JogadorListFragment
+import com.rn.jogador.list.JogadorListViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class JogadorActivity :
     AppCompatActivity(),
     JogadorListFragment.OnJogadorClickListener,
-    JogadorListFragment.OnJogadorListenerExcluido,
     SearchView.OnQueryTextListener,
-    MenuItem.OnActionExpandListener,
-    JogadorFormFragment.OnJogadorSavedListener{
+    MenuItem.OnActionExpandListener{
 
     private lateinit var binding: ActivityJogadorBinding
-    private var jogadorIdSelecionado: Long = -1
-    private var lastSearchTerm: String = ""
+    private val viewModel: JogadorListViewModel by viewModel()
     private var searchView:SearchView? = null
     private val listFragment: JogadorListFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.fragmentList) as JogadorListFragment
@@ -45,33 +42,6 @@ class JogadorActivity :
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 0 && resultCode == Activity.RESULT_OK){
-            listFragment.search(lastSearchTerm)
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
-        outState?.putLong(EXTRA_JOGADOR_ID_SELECTED, jogadorIdSelecionado)
-        outState?.putString(EXTRA_SEARCH_TERM, lastSearchTerm)
-    }
-
-    override fun onRestoreInstanceState(
-        savedInstanceState: Bundle?,
-        persistentState: PersistableBundle?
-    ) {
-        super.onRestoreInstanceState(savedInstanceState, persistentState)
-
-        jogadorIdSelecionado =
-            savedInstanceState?.getLong(EXTRA_JOGADOR_ID_SELECTED)?:0
-
-        lastSearchTerm =
-            savedInstanceState?.getString(EXTRA_SEARCH_TERM)?:""
-    }
-
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.jogador, menu)
         val searchItem = menu?.findItem(R.id.action_search)
@@ -79,9 +49,9 @@ class JogadorActivity :
         searchView = searchItem?.actionView as SearchView
         searchView?.queryHint = getString(R.string.hint_search)
         searchView?.setOnQueryTextListener(this)
-        if (lastSearchTerm.isNotEmpty()) {
+        if (viewModel.getTermoBusca()?.value?.isNotEmpty() == true) {
             Handler().post {
-                val query = lastSearchTerm
+                val query = viewModel.getTermoBusca()?.value
                 searchItem.expandActionView()
                 searchView?.setQuery(query, true)
                 searchView?.clearFocus()
@@ -102,7 +72,7 @@ class JogadorActivity :
 
     override fun onJogadorClick(jogador: Jogador) {
         if(isTablet()){
-            jogadorIdSelecionado = jogador.id
+            viewModel.idJogadorSelecionado = jogador.id
             mostrarDetalhesFragment(jogador.id)
         }else{
             mostrarDetalhesActivity(jogador.id)
@@ -129,47 +99,14 @@ class JogadorActivity :
     override fun onQueryTextSubmit(query: String?): Boolean = true
 
     override fun onQueryTextChange(newText: String?): Boolean{
-        lastSearchTerm = newText ?: ""
-        listFragment.search(lastSearchTerm)
+        listFragment.search(newText?:"")
         return true
     }
 
     override fun onMenuItemActionExpand(item: MenuItem): Boolean = true
 
     override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-        lastSearchTerm = ""
-        listFragment.clearSearch() // para voltar ao normal
+        listFragment.search()
         return true
     }
-
-
-
-
-    companion object {
-        const val EXTRA_SEARCH_TERM = "lastSearch"
-        const val EXTRA_JOGADOR_ID_SELECTED = "lastSelectedId"
-    }
-
-    override fun onJogadorSaved(jogador: Jogador) {
-        listFragment.search(lastSearchTerm)
-        val detalhesFragment = supportFragmentManager
-            .findFragmentByTag(JogadorDetalhesFragment.TAG_DETAILS) as? JogadorDetalhesFragment
-        if(detalhesFragment != null && jogador.id == jogadorIdSelecionado){
-            mostrarDetalhesFragment(jogadorIdSelecionado)
-        }
-    }
-
-    override fun onJogadoresExcluidos(jogadores: List<Jogador>) {
-        if(jogadores.find { it.id == jogadorIdSelecionado} != null){
-            val fragment = supportFragmentManager.findFragmentByTag(JogadorDetalhesFragment.TAG_DETAILS)
-            if(fragment != null){
-                supportFragmentManager
-                    .beginTransaction()
-                    .remove(fragment)
-                    .commit()
-            }
-        }
-    }
-
-
 }

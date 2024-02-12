@@ -1,16 +1,12 @@
 package com.rn.jogador.details
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.rn.jogador.R
-import com.rn.jogador.form.JogadorFormFragment
-import com.rn.jogador.model.Jogador
 
-class JogadorDetalhesActivity : AppCompatActivity(),
-    JogadorFormFragment.OnJogadorSavedListener{
+class JogadorDetalhesActivity : AppCompatActivity(){
 
     private val jogadorId: Long by lazy {
         intent.getLongExtra(EXTRA_JOGADOR_ID, -1)
@@ -30,11 +26,6 @@ class JogadorDetalhesActivity : AppCompatActivity(),
             .beginTransaction()
             .replace(R.id.detalhes, fragment, JogadorDetalhesFragment.TAG_DETAILS)
             .commit()
-    }
-
-    override fun onJogadorSaved(jogador: Jogador) {
-        setResult(RESULT_OK)
-        mostrarDetalhesJogadorFragment()
     }
 
     companion object{

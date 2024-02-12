@@ -4,9 +4,9 @@ import com.rn.jogador.model.Jogador
 
 class JogadorValidator {
     fun validar(info: Jogador) = with(info){
-        checarNome(nome) && checarPosicao(posicao)
+        checarNome(name) && checarPosicao(positon)
     }
 
-    private fun checarNome(nome:String) = nome.length in 2..20
-    private fun checarPosicao(posicao:String) = posicao.length in 3..30
+    private fun checarNome(name:String) = name.length in 2..20
+    private fun checarPosicao(position:String) = position.length in 3..30
 }

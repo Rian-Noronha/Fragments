@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Provider"
+rootProject.name = "Arch Components"
 include(":app")

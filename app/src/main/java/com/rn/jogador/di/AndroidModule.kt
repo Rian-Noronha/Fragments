@@ -1,36 +1,30 @@
 package com.rn.jogador.di
 
+import com.rn.jogador.details.JogadorDetalhesViewModel
+import com.rn.jogador.form.JogadorFormViewModel
+import com.rn.jogador.list.JogadorListViewModel
 import com.rn.jogador.repository.JogadorRepository
-import com.rn.jogador.details.JogadorDetalhesPresenter
-import com.rn.jogador.form.JogadorFormPresenter
-import com.rn.jogador.list.JogadorListPresenter
-import com.rn.jogador.details.JogadorDetalhesView
-import com.rn.jogador.form.JogadorFormView
-import com.rn.jogador.list.JogadorListView
-import com.rn.jogador.repository.sqlite.ProviderRepository
+import com.rn.jogador.repository.room.JogadorDatabase
+import com.rn.jogador.repository.room.RoomRepository
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val androidModule = module {
     single { this }
     single {
-        ProviderRepository(ctx = get()) as JogadorRepository
+        RoomRepository(JogadorDatabase.getDatabase(context = get())) as JogadorRepository
     }
-    factory { (view: JogadorListView) ->
-        JogadorListPresenter(
-            view,
-            repository = get()
-        )
+
+    viewModel {
+        JogadorListViewModel(repository = get())
     }
-    factory { (view: JogadorDetalhesView) ->
-        JogadorDetalhesPresenter(
-            view,
-            repository = get()
-        )
+
+    viewModel {
+        JogadorDetalhesViewModel(repository = get())
     }
-    factory { (view: JogadorFormView) ->
-        JogadorFormPresenter(
-            view,
-            repository = get()
-        )
+
+    viewModel {
+        JogadorFormViewModel(repository = get())
     }
+
 }

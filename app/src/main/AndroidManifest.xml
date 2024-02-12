@@ -13,13 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
-        <provider
-            android:name=".repository.sqlite.JogadorProvider"
-            android:authorities="com.rn.jogador"
-            android:enabled="true"
-            android:exported="true">
-        </provider>
-
         <activity
             android:name=".details.JogadorDetalhesActivity"
             android:exported="false"

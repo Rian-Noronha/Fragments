@@ -23,7 +23,7 @@ class JogadorAdapter(context: Context, jogadores: List<Jogador>):
         }
 
         val viewHolder = ViewHolder(binding)
-        viewHolder.txtName.text = jogador?.nome
+        viewHolder.txtName.text = jogador?.name
         viewHolder.rtbRating.rating = jogador?.rating ?: 0f
 
         return binding.root

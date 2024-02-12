@@ -9,17 +9,16 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
 import com.rn.jogador.R
 import com.rn.jogador.databinding.FragmentJogadorFormBinding
 import com.rn.jogador.model.Jogador
-import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class JogadorFormFragment :
-    DialogFragment(),
-    JogadorFormView {
+class JogadorFormFragment : DialogFragment(){
 
-    private val presenter: JogadorFormPresenter by inject { parametersOf(this) }
+    private val viewModel: JogadorFormViewModel by viewModel()
+    private var jogador: Jogador? = null
     private lateinit var binding: FragmentJogadorFormBinding
 
     override fun onCreateView(
@@ -34,7 +33,12 @@ class JogadorFormFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val jogadorId = arguments?.getLong(EXTRA_HOTEL_ID, 0) ?: 0
-        presenter.carregarJogador(jogadorId)
+        if(jogadorId > 0){
+            viewModel.carregarJogador(jogadorId).observe(viewLifecycleOwner, Observer { jogador ->
+                this.jogador = jogador
+                mostrarJogador(jogador)
+            })
+        }
         binding.edtPosicao.setOnEditorActionListener { _, i, _ ->
             handleKeyboardEvent(i)
         }
@@ -47,47 +51,43 @@ class JogadorFormFragment :
 
     }
 
-    override fun mostrarJogador(jogador: Jogador) {
-        binding.edtNome.setText(jogador.nome)
-        binding.edtPosicao.setText(jogador.posicao)
+    private fun mostrarJogador(jogador: Jogador) {
+        binding.edtNome.setText(jogador.name)
+        binding.edtPosicao.setText(jogador.positon)
         binding.rtbRating.rating = jogador.rating
     }
 
-    override fun erroJogadorInvalido() {
+    private fun erroJogadorInvalido() {
         Toast.makeText(requireContext(), R.string.erro_jogador_nao_encontrado, Toast.LENGTH_SHORT).show()
     }
 
-    override fun erroSalvarJogador() {
+    private fun erroSalvarJogador() {
         Toast.makeText(requireContext(), R.string.error_invalid_jogador, Toast.LENGTH_SHORT).show()
     }
 
     private fun handleKeyboardEvent(actionId: Int): Boolean {
         if (EditorInfo.IME_ACTION_DONE == actionId) {
-            val jogador = salvarJogador()
-            if (jogador != null) {
-                if (activity is OnJogadorSavedListener) {
-                    val listener = activity as OnJogadorSavedListener
-                    listener.onJogadorSaved(jogador)
-                }
-                // Feche o dialog
-                dialog?.dismiss()
-                return true
-            }
+            salvarJogador()
+            return true
         }
         return false
     }
 
-    private fun salvarJogador(): Jogador? {
+    private fun salvarJogador(){
         val jogador = Jogador()
         val jogadorId = arguments?.getLong(EXTRA_HOTEL_ID, 0) ?: 0
         jogador.id = jogadorId
-        jogador.nome = binding.edtNome.text.toString()
-        jogador.posicao = binding.edtPosicao.text.toString()
+        jogador.name = binding.edtNome.text.toString()
+        jogador.positon = binding.edtPosicao.text.toString()
         jogador.rating = binding.rtbRating.rating
-        if (presenter.salvarJogador(jogador)) {
-            return jogador
-        } else {
-            return null
+        try{
+            if(viewModel.salvarJogador(jogador)){
+                dialog?.dismiss()
+            }else{
+                erroJogadorInvalido()
+            }
+        }catch(e: Exception){
+            erroSalvarJogador()
         }
     }
 
